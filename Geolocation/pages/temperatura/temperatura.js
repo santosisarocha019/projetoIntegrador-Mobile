@@ -3,17 +3,18 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { LineChart } from 'react-native-chart-kit';
 
 const Temperatura = ({ navigation }) => {
-  // Gerando dados fictícios
-  const temperatura = Math.floor(Math.random() * (30 - 20 + 1)) + 20; // Temperatura entre 20 e 40 graus
-  const umidade = Math.floor(Math.random() * (100 - 50 + 1)) + 50; // Umidade entre 50% e 100%
-  const iluminosidade = Math.floor(Math.random() * (10000 - 1000 + 1)) + 1000; // Iluminosidade entre 1000 e 10000 lux
 
-  // Dados fictícios para o gráfico
+  const temperatura = Math.floor(Math.random() * (30 - 20 + 1)) + 20; 
+  
+  const umidade = Math.floor(Math.random() * (100 - 50 + 1)) + 50; 
+  const iluminosidade = Math.floor(Math.random() * (10000 - 1000 + 1)) + 1000; 
+
+  
   const data = {
-    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+    labels: ['06:00', '09:00', '12:00', '15:00', '18:00', '21:00'],
     datasets: [
       {
-        data: [20, 30, 28, 35, 24, 27], // Dados fictícios
+        data: [20, 30, 28, 35, 24, 27], 
       },
     ],
   };
