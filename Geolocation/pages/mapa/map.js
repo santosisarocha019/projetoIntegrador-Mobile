@@ -33,7 +33,7 @@ export default function Mapa({ navigation }) {
     const query = new URLSearchParams(params).toString();
 
     try {
-      const response = await fetch(`http://127.0.0.1:8000/api/temperatura_filter/`, {
+      const response = await fetch(`https://isarocha.pythonanywhere.com/api/temperatura_filter/`, {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -43,7 +43,7 @@ export default function Mapa({ navigation }) {
 
       const data = await response.json();
       if (data.length > 0) {
-        setTemperature(data[0].valor);
+        setTemperature(data[1].valor);
       } else {
         setTemperature('No data found');
       }
