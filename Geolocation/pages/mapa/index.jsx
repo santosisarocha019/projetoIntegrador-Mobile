@@ -1,17 +1,27 @@
-import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, Dimensions, ImageBackground, TouchableOpacity } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, Dimensions, ImageBackground, ActivityIndicator } from 'react-native';
 import * as Location from 'expo-location';
-import { createStackNavigator } from '@react-navigation/stack';
-import { NavigationContainer } from '@react-navigation/native';
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { styles } from './styles'; 
 const { width, height } = Dimensions.get('window');
-const Stack = createStackNavigator();
 
-export default function Mapa({ navigation }) {
+const Mapa = ({ navigation }) => {
   const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
-  const [distance, setDistance] = useState(null);
   const [temperature, setTemperature] = useState(null);
+  const [token, setToken] = useState('');
+  const [loadingTemperature, setLoadingTemperature] = useState(false);
+
+  useEffect(() => {
+    AsyncStorage.getItem('token')
+      .then((tokenY) => {
+        console.log('token Read: ', tokenY)
+        setToken(tokenY);
+      })
+      .catch(error => {
+        console.error('Erro ao recuperar token:', error);
+      });
+  }, []);
 
   const bounds = {
     north: -22.9140639,
@@ -21,8 +31,9 @@ export default function Mapa({ navigation }) {
   };
 
   const fetchTemperature = async () => {
-    const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE3NjczOTk4LCJpYXQiOjE3MTc2NzM2OTgsImp0aSI6IjZmMWRkNDBmYTk5NjQ2MjliNWEzMjhmMmJjZGM5YmY0IiwidXNlcl9pZCI6M30.crzRJI4Px3q_CTkyPklRsvmYat4l4CywMA-_ZnR9pHI';
-    const params = {
+    setLoadingTemperature(true);
+
+    const body = {
       sensor_id: 9,
       valor_gte: 10,
       valor_lt: 19,
@@ -30,25 +41,26 @@ export default function Mapa({ navigation }) {
       timestamp_lt: "2024-04-02T00:00:00"
     };
 
-    const query = new URLSearchParams(params).toString();
-
     try {
       const response = await fetch(`https://isarocha.pythonanywhere.com/api/temperatura_filter/`, {
-        method: 'GET',
+        method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
-        }
+        },
+        body: JSON.stringify(body)
       });
 
       const data = await response.json();
       if (data.length > 0) {
-        setTemperature(data[1].valor);
+        setTemperature(data[0].valor);
       } else {
         setTemperature('No data found');
       }
     } catch (error) {
       console.error('Erro ao buscar a temperatura:', error);
+    } finally {
+      setLoadingTemperature(false);
     }
   };
 
@@ -71,16 +83,10 @@ export default function Mapa({ navigation }) {
   }, []);
 
   useEffect(() => {
-    if (location) {
-      const { latitude, longitude } = location;
-      const distance = calculateDistance(latitude, longitude);
-      setDistance(distance.toFixed(2));
+    if (location && token) {
+      fetchTemperature();
     }
-  }, [location]);
-
-  useEffect(() => {
-    fetchTemperature();
-  }, []);
+  }, [location, token]);
 
   const calculatePosition = () => {
     if (!location) return { top: '50%', left: '50%' };
@@ -110,70 +116,25 @@ export default function Mapa({ navigation }) {
     const { latitude, longitude } = location;
     const distanceSquare1 = calculateDistance(latitude, longitude, bounds.south + 0.15, bounds.west + 0.15);
     const distanceSquare2 = calculateDistance(latitude, longitude, bounds.south + 0.25, bounds.west + 0.25);
-    text = `Latitude: ${latitude.toFixed(6)}\nLongitude: ${longitude.toFixed(6)}\nDistância 1 quadrado: ${distanceSquare1.toFixed(2)}\nDistância 2 quadrado: ${distanceSquare2.toFixed(2)}\nTemperatura: ${temperature ? `${temperature}°C` : 'Carregando...'}`;
+    text = `Latitude: ${latitude.toFixed(6)}\nLongitude: ${longitude.toFixed(6)}\nDistância 1 quadrado: ${distanceSquare1.toFixed(2)}\nDistância 2 quadrado: ${distanceSquare2.toFixed(2)}\nTemperatura: ${loadingTemperature ? 'Atualizando...' : temperature ? `${temperature}°C` : 'Dados não disponíveis'}`;
   }
 
   return (
     <View style={styles.container}>
+      <View>
+        <Text style={styles.title}>MAPA</Text>
+      </View>
       <ImageBackground source={require('./mapa.png')} style={styles.map}>
         <View style={[styles.bolinha, calculatePosition()]} />
         <View style={[styles.quadrado, { top: '30%', left: '50%' }]} />
         <View style={[styles.quadrado, { top: '50%', left: '40%' }]} />
       </ImageBackground>
-      <Text style={styles.text}>{text}</Text>
-      <TouchableOpacity onPress={() => navigation.navigate('Temperatura')} style={styles.button}>
-        <Text style={styles.buttonText}>Dados</Text>
-      </TouchableOpacity>
+      <View style={styles.textContainer}>
+        <Text style={styles.text}>{text}</Text>
+        {loadingTemperature && <ActivityIndicator size="small" color="#2596be" />}
+      </View>
     </View>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  map: {
-    width: width - 40,
-    height: height / 2,
-    borderRadius: 10,
-    overflow: 'hidden',
-  },
-  bolinha: {
-    position: 'absolute',
-    width: 20,
-    height: 20,
-    backgroundColor: '#92c1ba',
-    borderRadius: 10,
-    transform: [{ translateX: -10 }, { translateY: -10 }],
-  },
-  quadrado: {
-    position: 'absolute',
-    width: 20,
-    height: 20,
-    backgroundColor: '#2596be',
-    borderRadius: 5,
-    transform: [{ translateX: -20 }, { translateY: -20 }],
-  },
-  textContainer: {
-    marginTop: 20,
-    alignItems: 'center',
-  },
-  text: {
-    fontSize: 20,
-    color: 'black',
-    textAlign: 'center',
-    marginBottom: 30,
-  },
-  button: {
-    marginTop: 20,
-    backgroundColor: '#2596be',
-    padding: 10,
-    borderRadius: 5,
-  },
-  buttonText: {
-    color: 'white',
-    fontSize: 18,
-  },
-});
+export default Mapa;
