@@ -1,193 +1,76 @@
-
 import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: '#D0D1FF', 
+    },
+    box:{     
+        width: 350,
+        height: 500,
+        backgroundColor:'#FFFFFF',
         alignItems:'center',
         justifyContent:'center',
-    },
-    ID: {
-        width: '20%',
-        height: 40,
-        borderRadius: 10,
-        borderWidth: 1,
-        paddingLeft: 10,
-        fontWeight: 'bold'
-    },
-    addNew: {
-        width: '100%',
-        height: 40,
-        borderRadius: 10,
-        borderWidth: 1,
-        paddingLeft: 10,
-        fontWeight: 'bold'
-    },
-    texto: {
-        width: '100%',
-        height: 40,
-        borderRadius: 10,
-        backgroundColor: '#bbb',
-        borderWidth: 1,
-        padding: 5,
-        fontWeight: 'bold'
-    },
-    textoNomeEmail: {
-        backgroundColor: '#bbb',
-        width: '100%',
-        height: 40,
-        borderRadius: 10,
-        borderWidth: 1,
-        padding: 5,
-        fontWeight: 'bold'
-    },
-    textoCep: {
-        width: '100%',
-        height: 40,
-        borderRadius: 10,
-        borderWidth: 1,
-        padding: 5,
-        fontWeight: 'bold',
-    },
-    textoNomeEmailPost: {
-        width: '100%',
-        height: 40,
-        borderRadius: 10,
-        borderWidth: 1,
-        padding: 5,
-        fontWeight: 'bold'
-    },
-    textoCidade: {
-        width: '100%',
-        height: 40,
-        borderRadius: 10,
-        backgroundColor: '#bbb',
-        borderWidth: 1,
-        padding: 5,
-        fontWeight: 'bold',
-    },
-    textoUf: {
-        width: '20%',
-        height: 40,
-        borderRadius: 10,
-        backgroundColor: '#bbb',
-        borderWidth: 1,
-        padding: 5,
-        fontWeight: 'bold',
-        marginLeft:10
-        
-    },
-    textoCidadePost: {
-        backgroundColor: '#bbb',
-        width: '100%',
-        height: 40,
-        borderRadius: 10,
-        borderWidth: 1,
-        padding: 5,
-        fontWeight: 'bold',
-    },
-    textoUfPost: {
-        backgroundColor: '#bbb',
-        width: '20%',
-        height: 40,
-        borderRadius: 10,
-        borderWidth: 1,
-        padding: 5,
-        fontWeight: 'bold',
+        borderRadius: 15,
         
     },
     title: {
-        marginTop: 20,
-        fontSize: 40,
-        fontWeight:'bold'
+        fontSize: 30,
+        fontWeight: 'bold',
+        marginBottom: 20,
+        textAlign: 'center',
+    },
+    campos: {
+        width: '80%',
+        marginBottom: 20,
     },
     texto2: {
         marginTop: 10,
-        
+        marginBottom: 5,
+        fontWeight: 'bold',
     },
-    textoCidade2: {
-        marginTop: 10,
-        
+    textoNomeEmail: {
+        height: 40,
+        borderRadius: 10,
+        borderWidth: 1,
+        paddingHorizontal: 10,
+        marginBottom: 10,
+        backgroundColor: '#f0f0f0', 
     },
-    textoUf2: {
-        marginTop: 10,
-        marginLeft: '70%'
+    addNew: {
+        height: 40,
+        borderRadius: 10,
+        borderWidth: 1,
+        paddingHorizontal: 10,
+        marginBottom: 20,
+        backgroundColor: '#f0f0f0', 
     },
-
-    
+    btnBtn: {
+        width: '80%',
+        alignItems: 'center',
+    },
     btn: {
-        width: 100,
-        height: 40,
-        marginTop: 25,
-        marginBottom: 10,
-        borderWidth: 1,
-        backgroundColor: '#f00',
-        borderRadius: 5,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    btnPost: {
-        width: 100,
-        height: 40,
-        marginTop: 25,
-        marginBottom: 10,
-        borderWidth: 1,
-        backgroundColor: '#00f',
-        borderRadius: 5,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    btnC:{
-        width:'80%',
+        borderWidth:1,
+        borderRadius:10,
+        width:'50%',
+        height:50,
+        backgroundColor:'#C8E7FF',
+        borderColor:'#E8E8E8', 
         alignItems:'center',
         justifyContent:'center',
-        marginTop:10
     },
-    btnD:{
-        width:'80%',
-        alignItems:'center',
-        justifyContent:'center',
-        marginTop:10
+    btnCadastrar: {
+        color: '#fff',
+        fontSize: 16,
+        fontWeight: 'bold',
     },
-    btnTxt:{
-        color:'#fff',
-        fontSize:20,
-        fontWeight: 'bold'
+    textoErro: {
+        color: '#f00',
+        textAlign: 'center',
+        marginTop: 10,
     },
-    btnTxt2:{
-        color:'#000',
-        fontSize:20,
-        fontWeight: 'bold'
-    },
-    btnBuscar: {
-        width: '40%',
-        height: 50,
-        borderWidth: 1,
-        backgroundColor: '#00f',
-        borderRadius: 5,
-        alignItems: 'center',
-        justifyContent: 'center',
-        
-    },
-    btnApagar: {
-        width: '40%',
-        height: 50,
-        borderWidth: 1,
-        backgroundColor: '#f00',
-        borderRadius: 5,
-        alignItems: 'center',
-        justifyContent: 'center',
-        marginTop: 20
-        
-    },
-    cx: {
-        marginTop: 1,
-        width: '100%',
-        flexDirection: "row"
-    },
-    campos:{
-        width:'80%',
-    }
 });
 
-export default styles
+export default styles;

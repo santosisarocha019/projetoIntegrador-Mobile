@@ -1,32 +1,49 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, FlatList, ActivityIndicator } from 'react-native';
+import { View, Text, FlatList, ActivityIndicator, TextInput, Button } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { styles } from './styles'; 
+import { styles } from './styles';
 
 const Sensores = () => {
   const [sensores, setSensores] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [tipo, setTipo] = useState('');
+  const [localizacao, setLocalizacao] = useState('');
 
   useEffect(() => {
-    const fetchSensores = async () => {
-      try {
-        const token = await AsyncStorage.getItem('token');
-        const response = await fetch('https://isarocha.pythonanywhere.com/api/sensores/', {
-          headers: {
-            'Authorization': `Bearer ${token}`
-          }
-        });
-        const data = await response.json();
-        setSensores(data);
-      } catch (error) {
-        console.error('Erro ao buscar os sensores:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchSensores();
   }, []);
+
+  const fetchSensores = async () => {
+    setLoading(true);
+    try {
+      const token = await AsyncStorage.getItem('token');
+      let url = 'https://isarocha.pythonanywhere.com/api/sensores/';
+
+      // Adiciona parâmetros de filtro à URL
+      const params = [];
+      if (tipo) params.push(`tipo=${tipo}`);
+      if (localizacao) params.push(`localizacao=${localizacao}`);
+      if (params.length > 0) {
+        url += `?${params.join('&')}`;
+      }
+
+      const response = await fetch(url, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      const data = await response.json();
+      setSensores(data);
+    } catch (error) {
+      console.error('Erro ao buscar os sensores:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleApplyFilters = () => {
+    fetchSensores();
+  };
 
   if (loading) {
     return (
@@ -39,6 +56,23 @@ const Sensores = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Lista de Sensores</Text>
+
+      <View style={styles.filterContainer}>
+        <TextInput
+          style={styles.input}
+          placeholder="Tipo"
+          value={tipo}
+          onChangeText={setTipo}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Localização"
+          value={localizacao}
+          onChangeText={setLocalizacao}
+        />
+        <Button title="Aplicar Filtros" onPress={handleApplyFilters} />
+      </View>
+
       <FlatList
         data={sensores}
         keyExtractor={item => item.id.toString()}

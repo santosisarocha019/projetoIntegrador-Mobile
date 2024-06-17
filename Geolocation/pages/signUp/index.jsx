@@ -65,45 +65,47 @@ export default function SignUp({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Criar Usuário</Text>
+      <View style={styles.box}>
+        <Text style={styles.title}>Criar Usuário</Text>
 
-      <View style={styles.campos}>
-        <Text style={styles.texto2}>Nome:</Text>
-        <TextInput
-          style={styles.textoNomeEmail}
-          onChangeText={setUsuario}
-          value={usuario}
-        />
-        <Text style={styles.texto2}>email:</Text>
-        <TextInput
-          style={styles.textoNomeEmail}
-          onChangeText={setemail}
-          value={email}
-        />
-        
-        <Text style={styles.texto2}>Senha:</Text>
-        <TextInput
-          style={styles.addNew}
-          onChangeText={(text) => setPassword(text)}
-          value={password}
-          secureTextEntry={true}
-        />
-      </View>
-
-      <View style={styles.btnBtn}>
-        <Pressable
-          style={styles.btn}
-          onPress={createUser} 
-        >
-          <Text style={styles.btnCadastrar}>Criar Usuário</Text>
-        </Pressable>
-      </View>
-
-      {erro && (
-        <View style={{ width: "80%" }}>
-          <Text style={styles.textoErro}>{`Erro: ${erro}`}</Text>
+        <View style={styles.campos}>
+          <Text style={styles.texto2}>Nome:</Text>
+          <TextInput
+            style={styles.textoNomeEmail}
+            onChangeText={setUsuario}
+            value={usuario}
+          />
+          <Text style={styles.texto2}>email:</Text>
+          <TextInput
+            style={styles.textoNomeEmail}
+            onChangeText={setemail}
+            value={email}
+          />
+          
+          <Text style={styles.texto2}>Senha:</Text>
+          <TextInput
+            style={styles.addNew}
+            onChangeText={(text) => setPassword(text)}
+            value={password}
+            secureTextEntry={true}
+          />
         </View>
-      )}
+
+        <View style={styles.btnBtn}>
+          <Pressable
+            style={styles.btn}
+            onPress={createUser} 
+          >
+            <Text style={styles.btnCadastrar}>Criar Usuário</Text>
+          </Pressable>
+        </View>
+
+        {erro && (
+          <View style={{ width: "80%" }}>
+            <Text style={styles.textoErro}>{`Erro: ${erro}`}</Text>
+          </View>
+        )}
+        </View>
     </View>
   );
 }

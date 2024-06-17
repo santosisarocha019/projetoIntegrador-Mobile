@@ -2,13 +2,15 @@ import React, { useState } from 'react';
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { MaterialCommunityIcons } from '@expo/vector-icons'; // Alterei para MaterialCommunityIcons
+import { MaterialCommunityIcons } from '@expo/vector-icons'; 
 
 import Mapa from "./pages/mapa";
 import Grafico from "./pages/grafico";
 import Sensores from "./pages/sensores";
 import SignIn from './pages/signIn';
 import SignUp from './pages/signUp';
+import CreateSensor from './pages/createSensores';
+
 
 const Pilha = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -19,7 +21,6 @@ function MyTabs() {
             screenOptions={{
                 tabBarStyle: {
                     backgroundColor: '#D0D1FF',
-                    
                     paddingTop: 1,
                     borderTopColor: 'transparent'
                 },
@@ -67,6 +68,16 @@ function MyTabs() {
                     )
                 }}
             />
+            <Tab.Screen
+                name="CreateSensor"
+                component={CreateSensor}
+                options={{
+                    headerShown: false,
+                    tabBarIcon: ({ size, color }) => (
+                        <MaterialCommunityIcons name="plus-circle" size={size} color={color} />
+                    )
+                }}
+            />
         </Tab.Navigator>
     );
 }
@@ -91,9 +102,9 @@ export default function Routers() {
                         >
                             {(props) => <SignIn {...props} setIsSignedIn={setIsSignedIn} />}
                         </Pilha.Screen>
-                        
                     </>
                 )}
+                
             </Pilha.Navigator>
         </NavigationContainer>
     );

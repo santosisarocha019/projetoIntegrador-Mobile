@@ -19,6 +19,17 @@ export const styles = StyleSheet.create({
     marginBottom: 16,
     color: '#8B8DFE', 
   },
+  filterContainer: {
+    marginBottom: 16,
+  },
+  input: {
+    height: 40,
+    borderColor: '#ccc',
+    borderWidth: 1,
+    marginBottom: 10,
+    paddingHorizontal: 8,
+    borderRadius: 5,
+  },
   sensorItem: {
     padding: 16,
     marginBottom: 12, 
